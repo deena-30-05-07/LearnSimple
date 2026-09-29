@@ -12,6 +12,7 @@ app.use(express.urlencoded({ extended: true, limit: '50mb' }));
 
 // All API routes
 app.use('/api', apiRouter);
+app.use('/', apiRouter);
 
 // Export as Vercel serverless handler
 export default app;
