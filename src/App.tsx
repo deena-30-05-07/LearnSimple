@@ -339,6 +339,7 @@ export default function App() {
           {currentView === 'unit_generate' && activeUnit && (
             <GenerateScreen
               unitId={activeUnit.id}
+              initialUnit={activeUnit}
               onNavigate={handleNavigate}
             />
           )}

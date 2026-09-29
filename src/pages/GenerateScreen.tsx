@@ -15,6 +15,7 @@ import {
 
 interface Props {
   unitId: string;
+  initialUnit?: Unit | null;
   onNavigate: (view: string, unitId?: string) => void;
 }
 
@@ -31,8 +32,8 @@ const STEPS = [
   { id: 10, label: 'Pack ready for teacher review' },
 ];
 
-export const GenerateScreen: React.FC<Props> = ({ unitId, onNavigate }) => {
-  const [unit, setUnit] = useState<Unit | null>(null);
+export const GenerateScreen: React.FC<Props> = ({ unitId, initialUnit, onNavigate }) => {
+  const [unit, setUnit] = useState<Unit | null>(initialUnit || null);
   const [source, setSource] = useState<Source | null>(null);
   const [objectives, setObjectives] = useState<Objective[]>([]);
 
@@ -45,11 +46,10 @@ export const GenerateScreen: React.FC<Props> = ({ unitId, onNavigate }) => {
     async function loadPrerequisites() {
       try {
         const [uRes, sRes, oRes] = await Promise.all([
-          api.getUnit(unitId),
           api.getSource(unitId),
           api.getObjectives(unitId),
         ]);
-        setUnit(uRes.unit);
+        setUnit(initialUnit || null);
         setSource(sRes.source);
         setObjectives(oRes.objectives);
       } catch (err: any) {
@@ -57,7 +57,7 @@ export const GenerateScreen: React.FC<Props> = ({ unitId, onNavigate }) => {
       }
     }
     loadPrerequisites();
-  }, [unitId]);
+  }, [unitId, initialUnit]);
 
   const startGeneration = async () => {
     if (!source) {
