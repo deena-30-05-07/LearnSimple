@@ -7,7 +7,7 @@ import apiRouter from './server/routes.ts';
 dotenv.config();
 
 const app = express();
-const PORT = process.env.PORT || 3000;
+const PORT = Number.parseInt(process.env.PORT || '3000', 10);
 const isProduction = process.env.NODE_ENV === 'production';
 
 // Body parsing with 50mb limit for large educational PDFs / source uploads

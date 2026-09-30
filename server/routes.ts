@@ -4,6 +4,7 @@ import { extractTextFromPdf, parsePlainTextAsSource } from './pdf.ts';
 import { detectSourceMetadataAndTopics } from './gemini.ts';
 import { orchestrateLearningPack, orchestratePracticeQuestionAddition, orchestrateQuestionRegeneration } from './orchestrator.ts';
 import { executeQualityEngine } from './qualityEngine.ts';
+import type { Question } from '../src/types/index.ts';
 
 const router = Router();
 
@@ -655,7 +656,7 @@ router.post('/units/:id/student/assessments/:assetId/submit', (req: Request, res
       return res.status(400).json({ error: 'Answers must be provided as a question ID map' });
     }
 
-    const questions = asset.type === 'quiz'
+    const questions: Question[] = asset.type === 'quiz'
       ? asset.content.questions || []
       : [
           ...(asset.content.foundationQuestions || []),
