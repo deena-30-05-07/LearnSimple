@@ -25,7 +25,7 @@ export async function orchestrateLearningPack(unitId: string): Promise<{
     throw new Error('Please upload or paste a trusted source document before generating.');
   }
 
-  const objectives = db.getObjectives(unitId);
+  const objectives = db.getObjectives(unitId) || [];
   if (objectives.length < 2) {
     throw new Error('Please define at least two learning objectives before generating.');
   }

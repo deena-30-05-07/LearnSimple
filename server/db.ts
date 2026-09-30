@@ -73,7 +73,23 @@ class Database {
     try {
       if (fs.existsSync(DB_FILE)) {
         const raw = fs.readFileSync(DB_FILE, 'utf-8');
-        return JSON.parse(raw);
+        const saved = JSON.parse(raw) as Partial<DatabaseStore>;
+        const initial = getInitialStore();
+        return {
+          ...initial,
+          ...saved,
+          units: saved.units || initial.units,
+          sources: saved.sources || initial.sources,
+          sourceChunks: saved.sourceChunks || initial.sourceChunks,
+          objectives: saved.objectives || initial.objectives,
+          contracts: saved.contracts || initial.contracts,
+          assets: saved.assets || initial.assets,
+          questions: saved.questions || initial.questions,
+          qualityChecks: saved.qualityChecks || initial.qualityChecks,
+          versions: saved.versions || initial.versions,
+          approvals: saved.approvals || initial.approvals,
+          activityLogs: saved.activityLogs || initial.activityLogs,
+        };
       }
     } catch (err) {
       console.error('Failed to load database file, initializing clean store:', err);
@@ -248,7 +264,7 @@ class Database {
 
   // --- OBJECTIVES & CONTRACT ---
   public getObjectives(unitId: string): Objective[] {
-    return this.store.objectives[unitId] || [];
+    return this.store.objectives?.[unitId] || [];
   }
 
   public setObjectives(unitId: string, objectives: { code: string; text: string }[]): Objective[] {

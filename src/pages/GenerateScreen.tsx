@@ -45,7 +45,7 @@ export const GenerateScreen: React.FC<Props> = ({ unitId, initialUnit, onNavigat
   useEffect(() => {
     async function loadPrerequisites() {
       try {
-        const [uRes, sRes, oRes] = await Promise.all([
+        const [sRes, oRes] = await Promise.all([
           api.getSource(unitId),
           api.getObjectives(unitId),
         ]);
